@@ -66,18 +66,19 @@ function createAddQuoteForm () {
 }
 
 function addQuote () {
-    let newQuoteItems;
     let newQuoteText = document.getElementById( 'newQuoteText' ).value;
     let newQuoteCategory = document.getElementById( 'newQuoteCategory' ).value;
     if ( !newQuoteCategory || !newQuoteText ) {
         return;
     } else {
-        newQuoteItems = {"text": newQuoteText, "category": newQuoteCategory};
+        let newQuoteItems = {"text": newQuoteText, "category": newQuoteCategory};
         quotes.push( newQuoteItems );
-        quoteDisplay.innerHTML = newQuoteCategory;
+        quoteDisplay.innerHTML = newQuoteText;
+
+        document.getElementById('newQuoteText').value = "";
+        document.getElementById('newQuoteCategory').value = "";
     }
-    newQuoteText = "";
-    newQuoteCategory = "";
+    
 }
 
 showNewQuoteBtn.addEventListener( 'click', showRandomQuote )
