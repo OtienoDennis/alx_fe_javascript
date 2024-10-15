@@ -30,6 +30,9 @@ let quotes = [{
     "category": "death"
     }];
 
+
+createAddQuoteForm();
+
 const showNewQuoteBtn = document.getElementById( 'newQuote' );
 const quoteDisplay = document.getElementById( 'quoteDisplay' );
 // const addQuoteBtn = document.
@@ -40,6 +43,29 @@ function showRandomQuote () {
 }
 
 function createAddQuoteForm () {
+    const div = document.createElement( 'div' );
+    const quoteTextInput = document.createElement( 'input' );
+    quoteTextInput.setAttribute( 'id', "newQuoteText" );
+    quoteTextInput.setAttribute( 'type', "text" );
+    quoteTextInput.setAttribute( 'placeholder', "Enter a new quote" );
+
+
+    const quoteCategoryInput = document.createElement( 'input' );
+    quoteCategoryInput.setAttribute( 'id', "newQuoteCategory" );
+    quoteCategoryInput.setAttribute( 'type', "text" );
+    quoteCategoryInput.setAttribute( 'placeholder', "Enter quote category" );
+
+    
+    const addQuoteBtn = document.createElement( 'button' );
+    addQuoteBtn.textContent = "Add Quote";
+    addQuoteBtn.onclick = () => addQuote();
+    
+
+    div.append( quoteTextInput, quoteCategoryInput, addQuoteBtn );
+    document.body.appendChild( div );
+}
+
+function addQuote () {
     let newQuoteItems;
     let newQuoteText = document.getElementById( 'newQuoteText' ).value;
     let newQuoteCategory = document.getElementById( 'newQuoteCategory' ).value;
@@ -54,4 +80,4 @@ function createAddQuoteForm () {
     newQuoteCategory = "";
 }
 
-showNewQuoteBtn.addEventListener('click', showRandomQuote)
+showNewQuoteBtn.addEventListener( 'click', showRandomQuote )
