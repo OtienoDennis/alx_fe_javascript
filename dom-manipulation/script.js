@@ -1,4 +1,4 @@
-const allQuotes = [{
+let quotes = [{
     "quote": "The will of man is his happiness.",
     "category": "happiness"
 }, {
@@ -30,4 +30,28 @@ const allQuotes = [{
     "category": "death"
     }];
 
-    
+const showNewQuoteBtn = document.getElementById( 'newQuote' );
+const quoteDisplay = document.getElementById( 'quoteDisplay' );
+// const addQuoteBtn = document.
+
+function displayRandomQUote () {
+    let random = Math.floor( Math.random() * quotes.length );
+    quoteDisplay.textContent = quotes[random]['quote'];
+}
+
+function addQuote () {
+    let newQuoteItems;
+    let newQuoteText = document.getElementById( 'newQuoteText' ).value;
+    let newQuoteCategory = document.getElementById( 'newQuoteCategory' ).value;
+    if ( !newQuoteCategory || !newQuoteText ) {
+        return;
+    } else {
+        newQuoteItems = {"quote": newQuoteText, "category": newQuoteCategory};
+        quotes.push( newQuoteItems );
+        quoteDisplay.textContent = newQuoteCategory;
+    }
+    newQuoteText = "";
+    newQuoteCategory = "";
+}
+
+showNewQuoteBtn.addEventListener('click', displayRandomQUote)
