@@ -39,7 +39,7 @@ function showRandomQuote () {
     quoteDisplay.innerHTML = quotes[random]['text'];
 }
 
-function addQuote () {
+function createAddQuoteForm () {
     let newQuoteItems;
     let newQuoteText = document.getElementById( 'newQuoteText' ).value;
     let newQuoteCategory = document.getElementById( 'newQuoteCategory' ).value;
