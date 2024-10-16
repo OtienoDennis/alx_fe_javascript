@@ -1,4 +1,4 @@
-let quotes = [{
+let quotes =JSON.parse(localStorage.getItem('quotes')) || [{
     "text": "The will of man is his happiness.",
     "category": "happiness"
 }, {
@@ -35,9 +35,11 @@ createAddQuoteForm();
 
 const showNewQuoteBtn = document.getElementById( 'newQuote' );
 const quoteDisplay = document.getElementById( 'quoteDisplay' );
+const exportBtn = document.getElementById( "exportQuotes" );
 // const addQuoteBtn = document.
 
 function showRandomQuote () {
+    quotes = JSON.parse( localStorage.getItem( 'quotes' ) );
     let random = Math.floor( Math.random() * quotes.length );
     quoteDisplay.innerHTML = quotes[random]['text'];
 }
@@ -73,6 +75,7 @@ function addQuote () {
     } else {
         let newQuoteItems = {"text": newQuoteText, "category": newQuoteCategory};
         quotes.push( newQuoteItems );
+        localStorage.setItem('quotes', JSON.stringify(quotes));
         quoteDisplay.innerHTML = newQuoteText;
 
         document.getElementById('newQuoteText').value = "";
@@ -81,4 +84,28 @@ function addQuote () {
     
 }
 
+function exportToJSONFile () {
+    quotes = localStorage.getItem( 'quotes' );
+    const blob = new Blob( [quotes], {type: "application/json"} );
+    const url = URL.createObjectURL( blob );
+    const a = document.createElement( 'a' );
+    a.href = url;
+    a.download = "quotes.json";
+    document.body.appendChild( a );
+    a.click();
+    document.body.removeChild( a );
+}
+
+function importFromJsonFile (event) {
+    const fileReader = new FileReader();
+    fileReader.onload = function ( event ) {
+        const importedQuotes = JSON.parse( event.target.result );
+        quotes.push( ...importedQuotes )
+        saveQuotes();
+        alert( "Quotes imported Succesfully!" );
+    };
+    fileReader.readAsText(event.target.files[0])
+}
+
 showNewQuoteBtn.addEventListener( 'click', showRandomQuote )
+exportBtn.addEventListener('click', exportToJSONFile)
