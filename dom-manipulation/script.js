@@ -30,7 +30,7 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [{
     "category": "death"
     }];
 
-let selectedCategories = JSON.parse( localStorage.getItem( 'selected' ) ) || [];
+let selectedCategory = JSON.parse( localStorage.getItem( 'selectedCategory' ) );
 
 localStorage.setItem( 'quotes', JSON.stringify( quotes ) );
 
@@ -46,6 +46,9 @@ const categoryFilter = document.getElementById( 'categoryFilter' );
 function showRandomQuote () {
     let random = Math.floor( Math.random() * quotes.length );
     quoteDisplay.innerHTML = quotes[random]['text'];
+    selectedCategory = quotes[random];
+    localStorage.setItem( 'selectedCategory', JSON.stringify( selectedCategory ) );
+    categoryFilter.value = selectedCategory.category;
 }
 
 function createAddQuoteForm () {
@@ -82,9 +85,14 @@ function addQuote () {
         localStorage.setItem('quotes', JSON.stringify(quotes));
         quoteDisplay.innerHTML = newQuoteText;
 
+        selectedCategory = newQuoteItems;
+        localStorage.setItem( 'selectedCategory', JSON.stringify( selectedCategory ) );
+        categoryFilter.value = selectedCategory.category;
+
         document.getElementById('newQuoteText').value = "";
         document.getElementById('newQuoteCategory').value = "";
     }
+
     populateCategories();
 }
 
@@ -137,9 +145,8 @@ function filterQuotes () {
             const p = document.createElement( 'p' );
             p.textContent = quote['text'];
             quoteDisplay.appendChild( p );
-            selectedCategories.splice(0, 1, quote);
-            localStorage.setItem( 'selected', JSON.stringify( selectedCategories ) );
-            console.log(selectedCategories)
+            selectedCategory = quote;
+            localStorage.setItem( 'selectedCategory', JSON.stringify( selectedCategory ) );
         } 
     } )
     
@@ -147,5 +154,9 @@ function filterQuotes () {
 filterQuotes();
 showNewQuoteBtn.addEventListener( 'click', showRandomQuote );
 exportBtn.addEventListener( 'click', exportToJSONFile );
-quoteDisplay.innerHTML = `${JSON.parse( localStorage.getItem( 'selected' ) )[0].text}`;
-categoryFilter.value = `${JSON.parse( localStorage.getItem( 'selected' ) )[0].category}`;
+
+if ( selectedCategory && selectedCategory.text && selectedCategory.category ) {
+    quoteDisplay.innerHTML = selectedCategory.text;
+    categoryFilter.value = selectedCategory.category;
+}
+
