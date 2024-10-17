@@ -1,4 +1,4 @@
-let quotes =JSON.parse(localStorage.getItem('quotes')) || [{
+let quotes = JSON.parse(localStorage.getItem('quotes')) || [{
     "text": "The will of man is his happiness.",
     "category": "happiness"
 }, {
@@ -30,6 +30,8 @@ let quotes =JSON.parse(localStorage.getItem('quotes')) || [{
     "category": "death"
     }];
 
+localStorage.setItem( 'quotes', JSON.stringify( quotes ) );
+
 
 createAddQuoteForm();
 
@@ -39,7 +41,6 @@ const exportBtn = document.getElementById( "exportQuotes" );
 // const addQuoteBtn = document.
 
 function showRandomQuote () {
-    quotes = JSON.parse( localStorage.getItem( 'quotes' ) );
     let random = Math.floor( Math.random() * quotes.length );
     quoteDisplay.innerHTML = quotes[random]['text'];
 }
@@ -100,12 +101,12 @@ function importFromJsonFile (event) {
     const fileReader = new FileReader();
     fileReader.onload = function ( event ) {
         const importedQuotes = JSON.parse( event.target.result );
-        quotes.push( ...importedQuotes )
-        saveQuotes();
+        quotes.push(importedQuotes )
+        localStorage.setItem( 'quotes', JSON.stringify( quotes ) );
         alert( "Quotes imported Succesfully!" );
     };
     fileReader.readAsText(event.target.files[0])
 }
 
-showNewQuoteBtn.addEventListener( 'click', showRandomQuote )
-exportBtn.addEventListener('click', exportToJSONFile)
+showNewQuoteBtn.addEventListener( 'click', showRandomQuote );
+exportBtn.addEventListener( 'click', exportToJSONFile );
