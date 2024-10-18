@@ -188,7 +188,7 @@ const syncQuotes = async ( newQuote ) => {
             }
         );
         const data = await response.json();
-        console.log( "Synced with server:", data );
+        console.log( "Quotes synced with server!", data );
     } catch ( error ) {
         console.error("Failed to sync with server", error)
     }
