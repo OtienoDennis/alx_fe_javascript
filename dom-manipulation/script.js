@@ -90,10 +90,12 @@ function addQuote () {
         categoryFilter.value = selectedCategory.category;
 
         document.getElementById('newQuoteText').value = "";
-        document.getElementById('newQuoteCategory').value = "";
+        document.getElementById( 'newQuoteCategory' ).value = "";
+        syncWithServer( newQuoteItems );
     }
 
     populateCategories();
+    
 }
 
 function exportToJSONFile () {
@@ -160,3 +162,30 @@ if ( selectedCategory && selectedCategory.text && selectedCategory.category ) {
     categoryFilter.value = selectedCategory.category;
 }
 
+const fetchQuotesFromServer = async () => {
+    const response = await fetch( "https://jsonplaceholder.typicode.com/posts" );
+    const data = await response.json();
+    return data;
+}
+
+fetchQuotesFromServer().then( newQuotes => {
+    localStorage.setItem('quotes', JSON.stringify(newQuotes))
+} )
+
+const syncWithServer = async ( newQuote ) => {
+    try {
+        const response = await fetch( 'https:jsonplaceholder.typicode.com/posts',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify( newQuote ),
+            }
+        );
+        const data = await response.json();
+        console.log( "Synced with server:", data );
+    } catch ( error ) {
+        console.error("Failed to sync with server", error)
+    }
+}
