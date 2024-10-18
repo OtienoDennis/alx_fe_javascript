@@ -168,9 +168,13 @@ const fetchQuotesFromServer = async () => {
     return data;
 }
 
-fetchQuotesFromServer().then( newQuotes => {
+const intervalid = setInterval( () => {
+    fetchQuotesFromServer().then( newQuotes => {
     localStorage.setItem('quotes', JSON.stringify(newQuotes))
-} )
+    } )
+}, 10000)
+
+
 
 const syncQuotes = async ( newQuote ) => {
     try {
