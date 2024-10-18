@@ -91,7 +91,7 @@ function addQuote () {
 
         document.getElementById('newQuoteText').value = "";
         document.getElementById( 'newQuoteCategory' ).value = "";
-        syncWithServer( newQuoteItems );
+        syncQuotes( newQuoteItems );
     }
 
     populateCategories();
@@ -172,7 +172,7 @@ fetchQuotesFromServer().then( newQuotes => {
     localStorage.setItem('quotes', JSON.stringify(newQuotes))
 } )
 
-const syncWithServer = async ( newQuote ) => {
+const syncQuotes = async ( newQuote ) => {
     try {
         const response = await fetch( 'https:jsonplaceholder.typicode.com/posts',
             {
